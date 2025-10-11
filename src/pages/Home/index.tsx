@@ -6,17 +6,11 @@ import { Feather } from "@expo/vector-icons";
 import StatsCards from "../../components/StatsCards";
 import { Delivery } from "../../types/delivery";
 import DeliveriesCard from "../../components/DeliveriesCard";
+import { useDelivery } from "../../contexts/DeliveryContext";
 
 export default function Home(){
-
+    const { deliveries } = useDelivery();
     const [search, setSearch] = useState<string>('');
-
-    // Mock data para as entregas
-    const deliveries: Delivery[] = [
-        { id: 1, title: "Entrega 1", addressInitial: "Rua das Flores, 123", addressFinal: "Av. Brasil, 456", status: "pending" },
-        { id: 2, title: "Entrega 2", addressInitial: "Av. Principal, 456", addressFinal: "Rua da Paz, 789", status: "delivered"},
-        { id: 3, title: "Entrega 3", addressInitial: "Rua do Comércio, 789", addressFinal: "Av. das Américas, 101", status: "in_progress"},
-    ];
 
     const totalDeliveries = deliveries.length;
     const deliveredCount = deliveries.filter(delivery => delivery.status === 'delivered').length;
