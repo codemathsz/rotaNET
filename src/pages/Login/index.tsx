@@ -5,6 +5,7 @@ import InputText from "../../components/InputText";
 import InputPassword from "../../components/InputPassword";
 import Button from "../../components/Button";
 import { useGlobalAlert } from "../../contexts/GlobalAlertContext";
+import { useNavigation } from "@react-navigation/native";
 
 interface LoginFormData {
     email: string;
@@ -17,15 +18,19 @@ export default function Login() {
     const { control, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
     const [loading, setLoading] = useState<boolean>(false);
     const { showAlert } = useGlobalAlert();
+    const route = useNavigation();
 
     const onSubmit = (data: LoginFormData) => {
         try {
-            console.log('Dados do formulário:', data);
             setLoading(true);
+            console.log('Dados do formulário:', data);
+            route.navigate('Home' as never);
         } catch (error) {
             
         }finally{
-            setLoading(false);
+            setTimeout(() =>{
+                setLoading(false);
+            }, 500)
         }
     };
 
@@ -91,6 +96,7 @@ export default function Login() {
                         
                         <Button
                             onPress={handleSubmit(onSubmit, onError)}
+                            loading={loading}
                             variant="primary"
                         >
                             <Text className="text-white font-medium text-base">
