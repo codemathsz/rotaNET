@@ -6,6 +6,7 @@ import { RootStackParamList } from '../src/types/navigation';
 // Screens
 import Login from '../src/pages/Login';
 import Home from './pages/Home';
+import DeliveryDetails from './pages/DeliveryDetails';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -30,6 +31,14 @@ export default function Routes() {
           component={Home}
           options={{
             title: 'Home',
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen 
+          name="DeliveryDetails" 
+          component={DeliveryDetails}
+          options={{
+            title: 'Detalhes da Entrega',
             headerShown: false,
           }}
         />
