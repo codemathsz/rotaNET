@@ -6,6 +6,7 @@ import InputPassword from "../../components/InputPassword";
 import Button from "../../components/Button";
 import { useGlobalAlert } from "../../contexts/GlobalAlertContext";
 import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "../../contexts/AuthContext";
 
 interface LoginFormData {
     email: string;
@@ -19,18 +20,22 @@ export default function Login() {
     const [loading, setLoading] = useState<boolean>(false);
     const { showAlert } = useGlobalAlert();
     const route = useNavigation();
+    const { handleLogin } = useAuth();
 
-    const onSubmit = (data: LoginFormData) => {
+    const onSubmit = async (data: LoginFormData) => {
         try {
             setLoading(true);
             console.log('Dados do formulário:', data);
+            await handleLogin(data);
             route.navigate('Home' as never);
         } catch (error) {
-            
-        }finally{
-            setTimeout(() =>{
-                setLoading(false);
-            }, 500)
+            showAlert({
+                type: 'error',
+                title: 'Erro de login',
+                message: 'Email ou senha incorretos.'
+            });
+        } finally {
+            setLoading(false);
         }
     };
 
