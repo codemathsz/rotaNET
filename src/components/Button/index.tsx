@@ -11,12 +11,12 @@ export default function Button({ children, onPress, variant = 'primary', loading
 
     const variantColors = {
         primary: 'bg-primary-500',
-        secondary: 'bg-secondary-500',
+        secondary: 'bg-primary-700',
         danger: 'bg-danger-500',
     }
 
     return(
-        <TouchableOpacity onPress={onPress} disabled={loading} className={`w-full h-12 rounded-button flex justify-center items-center mt-6 ${variantColors[variant]}`}>
+        <TouchableOpacity onPress={onPress} disabled={loading} className={`w-full h-16 rounded-button flex justify-center items-center mt-6 ${variantColors[variant]}`}>
             {
                 loading ? (
                     <ActivityIndicator color="white" />
