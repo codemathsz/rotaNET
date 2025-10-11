@@ -8,7 +8,7 @@ import { GlobalAlertProvider } from './contexts/GlobalAlertContext';
 
 export default function App() {
   return (
-    <SafeAreaView className="flex-1 bg-background-primary relative">
+    <SafeAreaView className="flex-1 bg-background-primary" style={{ flex: 1 }}> 
       <GlobalAlertProvider>
         <Routes />
       </GlobalAlertProvider>
