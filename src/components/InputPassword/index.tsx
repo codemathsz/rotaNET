@@ -22,7 +22,9 @@ export default function InputPassword({ value, onChangeText, placeholder }: Inpu
                 value={value}
                 onChangeText={onChangeText}
             />
-            <AntDesign name={isPasswordVisible ? "eye" : "eye-invisible"} size={24} color="#a3a3a3" onPress={() => setIsPasswordVisible(!isPasswordVisible)} />
+            {value && (
+                <AntDesign name={isPasswordVisible ? "eye" : "eye-invisible"} size={24} color="#a3a3a3" onPress={() => setIsPasswordVisible(!isPasswordVisible)} />
+            )}
         </View>
     )
 }
