@@ -1,6 +1,12 @@
 import { Feather } from "@expo/vector-icons";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Delivery } from "../../types/delivery";
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../types/navigation';
+import { getStatusColor, getStatusText } from "../../utils/utils";
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 interface DeliveriesCardProps {
     delivery: Delivery
@@ -8,28 +14,17 @@ interface DeliveriesCardProps {
 
 export default function DeliveriesCard({ delivery }: DeliveriesCardProps) {
 
-    const getStatusColor = (status: string) => {
-        switch(status) {
-            case 'pending': return 'bg-yellow-100 text-yellow-800';
-            case 'delivered': return 'bg-green-100 text-green-800';
-            case 'in_progress': return 'bg-blue-100 text-blue-800';
-            default: return 'bg-gray-100 text-gray-800';
-        }
-    };
+    const navigation = useNavigation<NavigationProp>();
 
-    const getStatusText = (status: string) => {
-        switch(status) {
-            case 'pending': return 'Pendente';
-            case 'delivered': return 'Entregue';
-            case 'in_progress': return 'Em andamento';
-            default: return 'Desconhecido';
-        }
+    const handlePress = () => {
+        navigation.navigate('DeliveryDetails', { delivery });
     };
 
     return (
         <TouchableOpacity 
             key={delivery.id} 
             className="bg-white p-4 rounded-lg shadow-sm mb-3 border border-border-light"
+            onPress={handlePress}
         >
             <View className="w-full flex-row items-start justify-between mb-2">
                 <View className="flex-1">
