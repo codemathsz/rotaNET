@@ -1,13 +1,15 @@
 import { Text, View, TouchableOpacity, FlatList } from "react-native";
 import InputText from "../../components/InputText";
 import { useEffect, useState } from "react";
-import { Feather } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import StatsCards from "../../components/StatsCards";
 import DeliveriesCard from "../../components/DeliveriesCard";
 import { useDelivery } from "../../contexts/DeliveryContext";
 import { useGlobalAlert } from "../../contexts/GlobalAlertContext";
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function Home(){
+    const { logout } = useAuth();
     const { deliveries, getDeliveries } = useDelivery();
     const [search, setSearch] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
@@ -34,6 +36,10 @@ export default function Home(){
         }
     }
 
+    const handleLogout = () =>{
+        logout();
+    }
+
     useEffect(() =>{
         handleGetDeliveries();
     },[])
@@ -47,8 +53,11 @@ export default function Home(){
                         <Text className="text-2xl font-bold text-text-primary">Entregas</Text>
                         <Text className="text-sm text-text-secondary">Gerencie suas entregas do dia</Text>
                     </View>
-                    <TouchableOpacity className="w-10 h-10 bg-background-secondary rounded-full items-center justify-center">
-                        <Feather name="bell" size={20} color="#6b7280" />
+                    <TouchableOpacity 
+                        className="w-10 h-10 bg-background-secondary rounded-full items-center justify-center"
+                        onPress={handleLogout}
+                    >
+                        <Ionicons name="exit-outline" size={20} color="#6b7280" />
                     </TouchableOpacity>
                 </View>
 

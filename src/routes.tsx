@@ -17,7 +17,6 @@ export default function Routes() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={isLoggedIn ? "Home" : "Login"}
         screenOptions={{
           headerShown: false,
         }}
@@ -47,6 +46,7 @@ export default function Routes() {
             component={Login}
             options={{
               title: 'Login',
+              headerShown: false,
             }}
           />
         )}

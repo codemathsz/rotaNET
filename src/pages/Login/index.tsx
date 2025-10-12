@@ -5,7 +5,6 @@ import InputText from "../../components/InputText";
 import InputPassword from "../../components/InputPassword";
 import Button from "../../components/Button";
 import { useGlobalAlert } from "../../contexts/GlobalAlertContext";
-import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../../contexts/AuthContext";
 
 interface LoginFormData {
@@ -19,7 +18,6 @@ export default function Login() {
     const { control, handleSubmit } = useForm<LoginFormData>();
     const [loading, setLoading] = useState<boolean>(false);
     const { showAlert } = useGlobalAlert();
-    const route = useNavigation();
     const { handleLogin } = useAuth();
 
     const onSubmit = async (data: LoginFormData) => {
@@ -27,7 +25,6 @@ export default function Login() {
             setLoading(true);
             console.log('Dados do formulário:', data);
             await handleLogin(data);
-            route.navigate('Home' as never);
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message : 'Ocorreu um erro ao fazer login.';
             showAlert({
