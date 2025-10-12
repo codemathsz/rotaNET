@@ -1,9 +1,9 @@
-import { Delivery } from './delivery';
+import type { Delivery } from './delivery';
 
 export type RootStackParamList = {
   Login: undefined;
   Home: undefined;
-  DeliveryDetails: { delivery: Delivery };
+  DeliveryDetails: { deliveryId: number };
 };
 
 declare global {

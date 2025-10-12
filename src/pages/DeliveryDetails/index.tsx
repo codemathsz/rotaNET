@@ -4,6 +4,9 @@ import { RootStackParamList } from '../../types/navigation';
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { getDeliveryStatusIcon, getStatusColor, getStatusText } from "../../utils/utils";
 import Button from "../../components/Button";
+import { useDelivery } from "../../contexts/DeliveryContext";
+import { useState } from "react";
+import { useGlobalAlert } from "../../contexts/GlobalAlertContext";
 
 type DeliveryDetailsRouteProp = RouteProp<RootStackParamList, 'DeliveryDetails'>;
 
@@ -11,7 +14,51 @@ export default function DeliveryDetails() {
 
     const navigation = useNavigation();
     const route = useRoute<DeliveryDetailsRouteProp>();
-    const { delivery } = route.params;
+    const { deliveryId } = route.params;
+    const { updateDelivery, deliveries } = useDelivery();
+    const [loading, setLoading] = useState<boolean>(false);
+    const { showAlert } = useGlobalAlert();
+
+    const delivery = deliveries.find(delivery => delivery.id === deliveryId);
+
+    const handleDeliveryStatus = async () =>{
+        if(!delivery) return;
+        try {
+            setLoading(true);      
+            if(delivery.status === "pending"){
+                await updateDelivery({ id: delivery.id, status: 'in_progress' });
+                showAlert({
+                    type: 'success',
+                    title: 'Sucesso',
+                    message: 'Entrega iniciada com sucesso!'
+                })
+            }else if(delivery.status === "in_progress"){
+                await updateDelivery({ id: delivery.id, status: 'delivered' });
+                showAlert({
+                    type: 'success',
+                    title: 'Sucesso',
+                    message: 'Entrega finalizada com sucesso!'
+                })
+            }
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Ocorreu um erro ao atualizar o status da entrega.';
+            showAlert({
+                type: 'error',
+                title: 'Erro',
+                message: errorMessage
+            })
+        }finally{
+            setLoading(false);
+        }
+    }
+
+    if(!delivery){
+        return(
+            <View className="flex-1 items-center justify-center bg-background-primary px-6">
+                <Text className="text-sm text-text-secondary">Entrega não encontrada</Text>
+            </View>
+        )
+    }
 
     return(
         <View className="flex-1 bg-background-primary">
@@ -84,8 +131,9 @@ export default function DeliveryDetails() {
                 {
                     delivery.status !== "delivered" && (
                         <Button
-                            onPress={() =>{}}
+                            onPress={handleDeliveryStatus}
                             variant="primary"
+                            loading={loading}
                         >
                             <View className="flex-row items-center justify-center">
                                 {

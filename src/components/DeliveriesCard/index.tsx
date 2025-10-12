@@ -17,7 +17,7 @@ export default function DeliveriesCard({ delivery }: DeliveriesCardProps) {
     const navigation = useNavigation<NavigationProp>();
 
     const handlePress = () => {
-        navigation.navigate('DeliveryDetails', { delivery });
+        navigation.navigate('DeliveryDetails', { deliveryId: delivery.id });
     };
 
     return (

@@ -1,11 +1,12 @@
 import { createContext, useContext, useState } from "react";
-import { Delivery } from "../types/delivery";
-import { getAllDeliveries } from "../api/delivery.api";
+import { Delivery, UpdateDeliveryStatusDTO } from "../types/delivery";
+import { getAllDeliveries, updateDeliveryStatus } from "../api/delivery.api";
 
 interface DeliveryContextType {
     deliveries: Delivery[];
     getDeliveries: () => Promise<void>;
-};
+    updateDelivery: (data: UpdateDeliveryStatusDTO) => Promise<void>;
+}
 
 const DeliveryContext = createContext({} as DeliveryContextType);
 
@@ -16,14 +17,28 @@ export const DeliveryProvider = ({ children }: { children: React.ReactNode }) =>
         try {
             const data = await getAllDeliveries();
             setDeliveries(data);
-        } catch (error: any) {
-            throw new Error(error);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                throw error;
+            }
+            throw new Error('Erro desconhecido ao buscar entregas');
         }
     }
 
+    const updateDelivery = async (data: UpdateDeliveryStatusDTO) => {
+        try {
+            await updateDeliveryStatus(data);
+            await getDeliveries();
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                throw error;
+            }
+            throw new Error('Erro desconhecido ao atualizar entrega');
+        }
+    }
 
     return(
-        <DeliveryContext.Provider value={{ deliveries, getDeliveries }}>
+        <DeliveryContext.Provider value={{ deliveries, getDeliveries, updateDelivery }}>
             {children}
         </DeliveryContext.Provider>
     )

@@ -7,3 +7,8 @@ export type Delivery = {
     addressFinal: string;
     status: 'pending' | 'delivered' | 'in_progress';
 }
+
+export type UpdateDeliveryStatusDTO ={
+    id: number;
+    status: 'pending' | 'delivered' | 'in_progress';
+}
