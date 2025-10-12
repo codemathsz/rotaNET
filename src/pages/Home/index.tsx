@@ -1,6 +1,6 @@
 import { Text, View, ScrollView, TouchableOpacity, FlatList } from "react-native";
 import InputText from "../../components/InputText";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import { Feather } from "@expo/vector-icons";
 import StatsCards from "../../components/StatsCards";
@@ -9,13 +9,24 @@ import DeliveriesCard from "../../components/DeliveriesCard";
 import { useDelivery } from "../../contexts/DeliveryContext";
 
 export default function Home(){
-    const { deliveries } = useDelivery();
+    const { deliveries, getDeliveries } = useDelivery();
     const [search, setSearch] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
 
     const totalDeliveries = deliveries.length;
     const deliveredCount = deliveries.filter(delivery => delivery.status === 'delivered').length;
     const pendingCount = deliveries.filter(delivery => delivery.status === 'pending').length;
     const inProgressCount = deliveries.filter(delivery => delivery.status === 'in_progress').length;
+
+    const handleGetDeliveries = async () => {
+        setLoading(true);
+        await getDeliveries();
+        setLoading(false);
+    }
+
+    useEffect(() =>{
+        handleGetDeliveries();
+    },[])
 
     return(
         <View className="flex-1 bg-background-primary">
@@ -59,6 +70,15 @@ export default function Home(){
                         <DeliveriesCard delivery={item} />
                     )}
                     contentContainerStyle={{ paddingHorizontal: 2 }}
+                    ListEmptyComponent={() =>(
+                        !loading && (
+                            <View className="mt-10">
+                                <Text className="text-center text-text-secondary">Nenhuma entrega encontrada</Text>
+                            </View>
+                        )
+                    )}
+                    onRefresh={handleGetDeliveries}
+                    refreshing={loading}
                 />
             </View>
         </View>
