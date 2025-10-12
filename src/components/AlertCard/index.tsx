@@ -26,7 +26,7 @@ export default function AlertCard() {
     const { name, color, bg, textColor } = iconProps[alert.type];
 
     return (
-        <View style={{backgroundColor: bg}} className={`absolute left-4 right-4 bottom-28 p-4 rounded-lg z-50 flex flex-col gap-2`} onTouchStart={hideAlert}>
+        <View style={{backgroundColor: bg}} className={`absolute left-4 right-4 bottom-32 p-4 rounded-lg z-50 flex flex-col gap-2`} onTouchStart={hideAlert}>
             <View className="w-full flex flex-row items-center justify-start gap-4">
                 <MaterialIcons name={name} size={20} color={color}/>
                 <Text style={{ color: textColor }} className={`font-bold`}>{alert.title}</Text>

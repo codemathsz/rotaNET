@@ -16,7 +16,7 @@ interface LoginFormData {
 type Errors = FieldErrors<LoginFormData>
 
 export default function Login() {
-    const { control, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
+    const { control, handleSubmit } = useForm<LoginFormData>();
     const [loading, setLoading] = useState<boolean>(false);
     const { showAlert } = useGlobalAlert();
     const route = useNavigation();
@@ -28,11 +28,12 @@ export default function Login() {
             console.log('Dados do formulário:', data);
             await handleLogin(data);
             route.navigate('Home' as never);
-        } catch (error) {
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Ocorreu um erro ao fazer login.';
             showAlert({
                 type: 'error',
                 title: 'Erro de login',
-                message: 'Email ou senha incorretos.'
+                message: errorMessage
             });
         } finally {
             setLoading(false);

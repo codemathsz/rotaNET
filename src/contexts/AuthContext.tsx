@@ -26,9 +26,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 setUser(response);
                 setIsLoggedIn(true);
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error("Error logging in:", error);
-            throw error;
+            if (error instanceof Error) {
+                throw error;
+            }
+            throw new Error('Erro desconhecido no login');
         }
     }
 
@@ -46,7 +49,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             await AsyncStorage.removeItem("token");
             setUser(null);
             setIsLoggedIn(false);
-        } catch (error) {
+        } catch (error: unknown) {
             console.error("Error logging out:", error);
         }
     }

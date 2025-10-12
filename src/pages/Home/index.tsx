@@ -1,17 +1,17 @@
-import { Text, View, ScrollView, TouchableOpacity, FlatList } from "react-native";
+import { Text, View, TouchableOpacity, FlatList } from "react-native";
 import InputText from "../../components/InputText";
 import { useEffect, useState } from "react";
-import Button from "../../components/Button";
 import { Feather } from "@expo/vector-icons";
 import StatsCards from "../../components/StatsCards";
-import { Delivery } from "../../types/delivery";
 import DeliveriesCard from "../../components/DeliveriesCard";
 import { useDelivery } from "../../contexts/DeliveryContext";
+import { useGlobalAlert } from "../../contexts/GlobalAlertContext";
 
 export default function Home(){
     const { deliveries, getDeliveries } = useDelivery();
     const [search, setSearch] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
+    const { showAlert } = useGlobalAlert();
 
     const totalDeliveries = deliveries.length;
     const deliveredCount = deliveries.filter(delivery => delivery.status === 'delivered').length;
@@ -19,9 +19,19 @@ export default function Home(){
     const inProgressCount = deliveries.filter(delivery => delivery.status === 'in_progress').length;
 
     const handleGetDeliveries = async () => {
-        setLoading(true);
-        await getDeliveries();
-        setLoading(false);
+        try {
+            setLoading(true);
+            await getDeliveries();
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Ocorreu um erro ao buscar as entregas.';
+            showAlert({
+                type: 'error',
+                title: 'Erro',
+                message: errorMessage
+            })
+        }finally{
+            setLoading(false);
+        }
     }
 
     useEffect(() =>{
