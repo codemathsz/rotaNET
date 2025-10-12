@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "email": "admin@rotanet.com",
       "password": "123456",
       "name": "Administrador",
@@ -9,7 +9,7 @@
       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
     },
     {
-      "id": 2,
+      "id": "2",
       "email": "entregador@rotanet.com",
       "password": "123456",
       "name": "João Entregador",
@@ -19,16 +19,16 @@
   ],
   "deliveries": [
     {
-      "id": 1,
+      "id": "1",
       "cod": "DEL001",
       "title": "Entrega de Documentos - Escritório Central",
       "description": "Documentos importantes para reunião executiva. Manuseio cuidadoso necessário.",
       "addressInitial": "Rua das Flores, 123 - Centro",
       "addressFinal": "Av. Paulista, 456 - Bela Vista",
-      "status": "pending"
+      "status": "delivered"
     },
     {
-      "id": 2,
+      "id": "2",
       "cod": "DEL002",
       "title": "Entrega de Produtos - Loja Fashion",
       "description": "Roupas e acessórios para cliente premium. Embalagem especial.",
@@ -37,16 +37,16 @@
       "status": "in_progress"
     },
     {
-      "id": 3,
+      "id": "3",
       "cod": "DEL003",
       "title": "Entrega de Medicamentos - Farmácia Central",
       "description": "Medicamentos controlados. Verificar documentos do recebedor.",
       "addressInitial": "Av. Brasil, 1000 - Jardins",
       "addressFinal": "Rua das Palmeiras, 150 - Moema",
-      "status": "delivered"
+      "status": "pending"
     },
     {
-      "id": 4,
+      "id": "4",
       "cod": "DEL004",
       "title": "Entrega de Eletrônicos - Tech Store",
       "description": "Smartphone e acessórios. Produto frágil - cuidado no transporte.",
@@ -55,13 +55,13 @@
       "status": "pending"
     },
     {
-      "id": 5,
+      "id": "5",
       "cod": "DEL005",
       "title": "Entrega de Alimentação - Restaurante Gourmet",
       "description": "Refeição especial para evento corporativo. Manter temperatura.",
       "addressInitial": "Rua da Consolação, 200 - República",
       "addressFinal": "Edifício Corporate, 15º andar - Faria Lima",
-      "status": "pending"
+      "status": "in_progress"
     }
   ],
   "settings": {
